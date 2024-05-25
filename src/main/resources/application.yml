@@ -11,6 +11,10 @@ spring:
     enabled: true
     change-log: db.changelog/changelog.xml
     liquibase-schema: migration
+  jwt:
+    secret: c3VwZXJwdXBlcmR1cGVybWVnYWhhcmfwef43gt543r445hg43frerh4y56efreRvdmVydG9waGlnaHNlY3JldA==
+    access: 3600000
+    refresh: 2592000000
   jpa:
     hibernate:
       ddl-auto: update
