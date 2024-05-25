@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login page</title>
+</head>
+<body>
+
+<form name="loginForm">
+    <label for="email">Введите email пользователя: </label>
+    <input type="text" name="username" id="email" required>
+    <br/>
+    <label for="password">Введите пароль: </label>
+    <input type="password" name="password" id="password" required>
+    <br/>
+    <input type="button" value="Войти" onclick="validateForm()">
+    <div id="error" style="color: red; display: none;">Неправильные email или пароль</div>
+</form>
+<br>
+<a th:href="@{/auth/sign-up}" style="display: inline-block; padding: 10px 15px;
+      background: darkgreen; color: white; border-radius: 10px; text-decoration: none;">Зарегистрироваться</a>
+
+<script>
+    function validateForm() {
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+
+        if (!email || !password) {
+            document.getElementById("error").style.display = "block";
+            return false;
+        }
+        fetch('/verifier-service/process-login', {
+            method: 'POST',
+            body: JSON.stringify({ email: email, password: password }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                window.location.href = '/verifier-service/personal-account';
+            } else {
+                document.getElementById("error").style.display = "block";
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+
+        return true;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: verifier-service
+  port: 8080
+  datasource:
+    url: jdbc:postgresql://localhost:5435/verifier-service-db
+    username: postgres_user
+    password: postgres_psw
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: db.changelog/changelog.xml
+    liquibase-schema: migration
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show_sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect

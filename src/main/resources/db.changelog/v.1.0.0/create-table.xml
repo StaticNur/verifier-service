@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+        logicalFilePath="db/changelog.xml">
+
+    <!--   Таблица для пользователей   -->
+    <changeSet id="create-user-table" author="Mukhammadnur">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="internal" tableName="user"/>
+                <sequenceExists schemaName="internal" sequenceName="user_sequence"/>
+            </not>
+        </preConditions>
+
+        <createSequence schemaName="internal" sequenceName="user_sequence" startValue="1" incrementBy="1"/>
+
+        <createTable schemaName="internal" tableName="user">
+            <column name="id" type="INT" defaultValueComputed="nextval('internal.user_sequence')">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="full_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="year_of_birth" type="INT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="role" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable schemaName="internal" tableName="user" />
+            <dropSequence schemaName="internal" sequenceName="user_sequence"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
